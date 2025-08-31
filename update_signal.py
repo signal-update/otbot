@@ -1,5 +1,6 @@
 import os
 
+os.system("cd && telegram")
 # input dari user
 target = input("Hapus file tanggal?: ")
 
