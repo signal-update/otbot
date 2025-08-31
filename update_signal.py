@@ -1,6 +1,5 @@
 import os
 
-os.system("update_signal.py")
 # input dari user
 target = input("Hapus file tanggal?: ")
 
