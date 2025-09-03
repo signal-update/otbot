@@ -1,5 +1,7 @@
 import os
 
+os.system("ls *.docx")
+
 # input dari user
 target = input("Hapus file tanggal?: ")
 
