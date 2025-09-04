@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Android APK (no wrapper)
 
 on:
   push:
@@ -19,8 +19,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Build with Gradle
+        run: gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
