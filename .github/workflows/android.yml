@@ -9,21 +9,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout kode dari repo
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2️⃣ Setup JDK 17
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
+      # 3️⃣ Install Android SDK command line tools
       - name: Install Android SDK
         run: |
           sudo apt-get update
           sudo apt-get install -y wget unzip
+          mkdir -p $HOME/android-sdk/cmdline-tools
           wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
-          unzip cmdline-tools.zip -d $HOME/android-sdk
+          unzip cmdline-tools.zip -d $HOME/android-sdk/cmdline-tools
           mkdir -p $HOME/android-sdk/cmdline-tools/latest
           mv $HOME/android-sdk/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest/
           export ANDROID_HOME=$HOME/android-sdk
@@ -31,14 +35,13 @@ jobs:
           yes | sdkmanager --licenses
           sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
+      # 4️⃣ Build APK menggunakan Gradle Wrapper
       - name: Build APK
         run: ./gradlew assembleDebug
 
+      # 5️⃣ Upload hasil APK sebagai artifact
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
-
-
-#halo
