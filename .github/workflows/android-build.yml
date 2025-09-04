@@ -9,25 +9,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # Env global supaya SDK bisa dipakai di semua step
     env:
       ANDROID_HOME: ${{ github.workspace }}/android-sdk
       PATH: ${{ github.workspace }}/android-sdk/cmdline-tools/latest/bin:${{ github.workspace }}/android-sdk/platform-tools:${{ env.PATH }}
 
     steps:
-      # 1️⃣ Checkout kode
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Set up JDK 17
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      # 3️⃣ Install Android SDK manually
-      - name: Install Android SDK command-line tools
+      - name: Install Android SDK
         run: |
           sudo apt-get update
           sudo apt-get install -y wget unzip
@@ -39,11 +35,9 @@ jobs:
           yes | sdkmanager --licenses
           sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
-      # 4️⃣ Build APK
       - name: Build APK
         run: ./gradlew assembleDebug
 
-      # 5️⃣ Upload APK sebagai artifact
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
