@@ -10,31 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout kode dari repo
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Setup JDK 17
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      # 3️⃣ Setup Android SDK & build-tools via action resmi
       - name: Setup Android SDK
-        uses: reactivecircus/android-emulator-runner@v2
+        uses: android-actions/setup-sdk@v2
         with:
           api-level: 34
-          target: default
-          arch: x86_64
-          force-avd-creation: false
+          build-tools: 34.0.0
 
-      # 4️⃣ Build APK pakai gradle wrapper
       - name: Build APK
         run: ./gradlew assembleDebug
 
-      # 5️⃣ Upload hasil APK sebagai artifact
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
