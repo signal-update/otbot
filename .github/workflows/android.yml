@@ -34,10 +34,11 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --warning-mode all
+      - name: Build Debug APK (verbose)
+        run: ./gradlew assembleDebug --stacktrace --info --warning-mode all
 
       - name: Upload APK
+        if: success() # cuma upload kalo build sukses
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
