@@ -1,0 +1,2 @@
+rootProject.name = "WifiInfoHelper"
+include ':app'
